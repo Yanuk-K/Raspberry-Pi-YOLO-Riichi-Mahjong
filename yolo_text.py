@@ -17,7 +17,7 @@ while True:
     # capture a frame from camera
     frame = picam2.capture_array()
     
-    # run yolo on the captured fram and store results
+    # run yolo on the captured frame and store results
     results = model(frame)
     
     # output visual detection data, will draw on preview window
