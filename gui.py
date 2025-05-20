@@ -1,6 +1,6 @@
 import tkinter as tk
 from ultralytics import YOLO
-from yolo_grab import YoloGrab
+# from yolo_grab import YoloGrab
 
 class app:
     oya_dict = {0:"", 1:"RIGHT", 2:"TOP", 3:"LEFT"}
@@ -8,13 +8,13 @@ class app:
 
     def __init__(self, master):
         self.master = master
-        self.master.geometry("500x500")
+        self.master.geometry("500x400")
         self.start()
         self.score = [25000, 25000, 25000, 25000]
         self.bakaze = 0
         self.oya = 0
         # import YOLO model(supply your own)
-        self.model = YOLO("best_ncnn_model")
+        # self.model = YOLO("best_ncnn_model")
 
     def start(self):
         for i in self.master.winfo_children():
@@ -84,12 +84,12 @@ class app:
 
         tk.Label(self.mainFrame, text=self.oya_dict[self.oya]+" Player is Oya", fg="blue").pack()
 
-        self.scorePanel = tk.LabelFrame(self.mainFrame, text = "Scores", width=200, height=200)
-        self.scorePanel.pack(anchor=tk.N, side=tk.TOP, pady=10, fill=tk.BOTH, expand=False)
+        self.scorePanel = tk.LabelFrame(self.mainFrame, text = "Scores")
+        self.scorePanel.pack(anchor=tk.N, pady=5, fill=tk.X, expand=True)
         
         # player at top
         self.topPlayerFrame = tk.Frame(self.scorePanel)
-        self.topPlayerFrame.pack(side=tk.TOP, padx=10)
+        self.topPlayerFrame.pack(side=tk.TOP, padx=5)
         tk.Label(self.topPlayerFrame, text=self.bakaze_dict[self.oya+2 if self.oya<3 else self.oya-2]).pack()
         tk.Label(self.topPlayerFrame, text="Top Player").pack()
         self.topPlayerLabel = tk.Label(self.topPlayerFrame, text=self.score[2])
@@ -97,40 +97,45 @@ class app:
 
         # player at bottom
         self.bottomPlayerFrame = tk.Frame(self.scorePanel)
-        self.bottomPlayerFrame.pack(side=tk.BOTTOM, padx=10)
+        self.bottomPlayerFrame.pack(side=tk.BOTTOM, padx=5)
         tk.Label(self.bottomPlayerFrame, text= self.bakaze_dict[self.oya]).pack()
         tk.Label(self.bottomPlayerFrame, text= "Player").pack()
         tk.Label(self.bottomPlayerFrame, text=self.score[0]).pack()
 
         # player at right
         self.rightPlayerFrame = tk.Frame(self.scorePanel)
-        self.rightPlayerFrame.pack(side=tk.RIGHT, padx=10)
+        self.rightPlayerFrame.pack(side=tk.RIGHT, padx=5)
         tk.Label(self.rightPlayerFrame, text= self.bakaze_dict[self.oya+1 if self.oya<3 else self.oya-3]).pack()
         tk.Label(self.rightPlayerFrame, text= "Right Player").pack()
         tk.Label(self.rightPlayerFrame, text=self.score[1]).pack()
 
         # player at left
         self.leftPlayerFrame = tk.Frame(self.scorePanel)
-        self.leftPlayerFrame.pack(side=tk.LEFT, padx=10)
+        self.leftPlayerFrame.pack(side=tk.LEFT, padx=5)
         tk.Label(self.leftPlayerFrame, text=self.bakaze_dict[self.oya+2 if self.oya<3 else self.oya-1]).pack()
         tk.Label(self.leftPlayerFrame, text="Left Player").pack()
         tk.Label(self.leftPlayerFrame, text=self.score[3]).pack()
 
-        tk.Label(self.scorePanel, text = self.bakaze_dict[self.bakaze]).pack(side=tk.TOP, pady=100)
+        tk.Label(self.scorePanel, text = self.bakaze_dict[self.bakaze]).pack(side=tk.TOP, pady=30)
 
-        self.ronBtn = tk.Button(self.mainFrame, text="Ron", command=lambda:self.ron_score_calc(self.oya))
+        self.btnPanel = tk.PanedWindow(self.mainFrame)
+        self.btnPanel.pack(anchor=tk.N, fill=tk.BOTH, expand=True)
+
+        # self.ronBtn = tk.Button(self.mainFrame, text="Ron", command=lambda:self.ron_score_calc(self.oya))
+        self.ronBtn = tk.Button(self.btnPanel, text="Ron")
         self.ronBtn.pack()
-        self.tsumoBtn = tk.Button(self.mainFrame, text="Tsumo")
+        self.tsumoBtn = tk.Button(self.btnPanel, text="Tsumo")
         self.tsumoBtn.pack(pady=5)
-        self.ryuukokuBtn = tk.Button(self.mainFrame, text="Ryuukoku", command=lambda:self.result_screen([-1000, -1000, -1000, 3000], True))
+        self.ryuukokuBtn = tk.Button(self.btnPanel, text="Ryuukoku", command=lambda:self.result_screen([-1000, -1000, -1000, 3000], True))
         self.ryuukokuBtn.pack(pady=5)
 
         # def ron_score_calc(self, winner): calculate and update frame
         # def tsumo_score_calc(self, winner): 
-    
+    '''
     def ron_score_calc(self, winner):
-        self.cameraScreen = YoloGrab(self, self.model).capture_screen()
+        self.cameraScreen = YoloGrab(self.master, self.model).capture_screen()
         print(self.cameraScreen.result)
+    '''
     
     def result_screen(self, scoreDiff, newOya):
         for i in self.master.winfo_children():
