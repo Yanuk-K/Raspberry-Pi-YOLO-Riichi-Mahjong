@@ -118,7 +118,7 @@ class app:
 
         tk.Label(self.scorePanel, text = self.bakaze_dict[self.bakaze]).pack(side=tk.TOP, pady=100)
 
-        self.ronBtn = tk.Button(self.mainFrame, text="Ron")
+        self.ronBtn = tk.Button(self.mainFrame, text="Ron", command=lambda:self.ron_score_calc(self.oya))
         self.ronBtn.pack()
         self.tsumoBtn = tk.Button(self.mainFrame, text="Tsumo")
         self.tsumoBtn.pack(pady=5)
@@ -127,6 +127,11 @@ class app:
 
         # def ron_score_calc(self, winner): calculate and update frame
         # def tsumo_score_calc(self, winner): 
+    
+    def ron_score_calc(self, winner):
+        self.cameraScreen = YoloGrab(self, self.model).capture_screen()
+        print(self.cameraScreen.result)
+    
     def result_screen(self, scoreDiff, newOya):
         for i in self.master.winfo_children():
             i.pack_forget()
