@@ -14,7 +14,7 @@ class app:
         self.bakaze = 0
         self.oya = 0
         # import YOLO model(supply your own)
-        model = YOLO("best_ncnn_model")
+        self.model = YOLO("best_ncnn_model")
 
     def start(self):
         for i in self.master.winfo_children():
